@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('car_id');
+            $table->foreign('car_id')->references('id')->on('cars')->onDelete('cascade');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->decimal('total_price', 10, 2);
+            $table->enum('status', ['pending', 'confirmed', 'canceled'])->default('pending');
+            // $table->unsignedBigInteger('payment_id')->nullable();
+            // $table->foreign('payment_id')->references('id')->on('payments')->onDelete('set null');
             $table->timestamps();
         });
     }
